@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project CMS - Elysian Build</title>
+    <title>Project Management - Elysian Build Admin</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
     <style>
         .admin-container {
             max-width: 1200px;
@@ -188,8 +190,18 @@
 <body>
     <div class="admin-container">
         <div class="admin-header">
-            <h1>Project CMS</h1>
-            <p>Manage featured projects for Elysian Build</p>
+            <div>
+                <h1>Project Management</h1>
+                <p>Manage featured projects for Elysian Build</p>
+            </div>
+            <div>
+                <a href="admin-dashboard.html" class="btn" style="margin-right: 1rem;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
         </div>
 
         <!-- Add New Project Form -->
@@ -264,6 +276,20 @@
     </div>
 
     <script>
+        // Check authentication
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminLoginTime');
+                window.location.href = 'admin-login.html';
+            }
+        }
+
         // Load projects from localStorage
         function loadProjects() {
             const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
