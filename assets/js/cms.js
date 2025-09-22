@@ -10,10 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Load featured projects from localStorage and update homepage
 function loadFeaturedProjects() {
+    console.log('Loading featured projects...');
     const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+    console.log('Found projects:', projects.length);
     
     // If no projects in localStorage, use default projects
     if (projects.length === 0) {
+        console.log('No projects found, loading defaults...');
         loadDefaultProjects();
         return;
     }
@@ -129,8 +132,14 @@ function loadDefaultProjects() {
 
 // Update the featured projects grid with project data
 function updateFeaturedProjectsGrid(projects) {
+    console.log('Updating featured projects grid...');
     const grid = document.querySelector('.featured-projects-grid');
-    if (!grid) return;
+    if (!grid) {
+        console.error('Featured projects grid not found!');
+        return;
+    }
+    
+    console.log('Grid found, updating with', projects.length, 'projects');
     
     // Generate HTML for featured projects
     const projectsHTML = projects.map(project => `
@@ -149,6 +158,7 @@ function updateFeaturedProjectsGrid(projects) {
     
     // Update the grid
     grid.innerHTML = projectsHTML;
+    console.log('Grid updated successfully');
 }
 
 // Add a new project (called from admin panel)
