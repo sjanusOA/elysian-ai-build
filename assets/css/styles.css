@@ -6,9 +6,9 @@
 }
 
 :root {
-    /* Primary Brand Colors - Deep Navy & Rich Gold */
+    /* Primary Brand Colors - Deep Navy, Rich Gold & Warm Red-Orange */
     --primary-color: #1a2332;
-    --secondary-color: #c9a96e;
+    --secondary-color: #d97706;
     --accent-color: #2d3748;
     
     /* Extended Brand Palette */
@@ -22,6 +22,14 @@
     --gold-light: #d4b876;
     --gold-lighter: #e1c588;
     --gold-pale: #f7f3e9;
+    
+    /* Red-Orange Palette */
+    --red-orange-dark: #b45309;
+    --red-orange-medium: #d97706;
+    --red-orange-light: #ea580c;
+    --red-orange-lighter: #f97316;
+    --red-orange-pale: #fed7aa;
+    --red-orange-subtle: #fff7ed;
     
     /* Neutral Colors */
     --text-dark: #1a2332;
@@ -45,6 +53,8 @@
     --shadow: 0 10px 30px rgba(26, 35, 50, 0.1);
     --shadow-hover: 0 20px 40px rgba(26, 35, 50, 0.15);
     --shadow-gold: 0 10px 30px rgba(201, 169, 110, 0.2);
+    --shadow-red-orange: 0 10px 30px rgba(217, 119, 6, 0.2);
+    --shadow-red-orange-strong: 0 15px 40px rgba(217, 119, 6, 0.3);
     --border-radius: 8px;
     --transition: all 0.3s ease;
 }
@@ -106,10 +116,10 @@ p {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--gold-medium), var(--gold-light));
+    background: linear-gradient(135deg, var(--red-orange-medium), var(--red-orange-light));
     color: var(--white);
-    box-shadow: var(--shadow-gold);
-    border: 1px solid var(--gold-medium);
+    box-shadow: var(--shadow-red-orange);
+    border: 1px solid var(--red-orange-medium);
 }
 
 .btn-primary:hover {
