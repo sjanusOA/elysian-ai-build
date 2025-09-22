@@ -74,12 +74,19 @@ body {
     box-sizing: border-box;
 }
 
-/* Responsive Images */
+/* Responsive Images with Loading Optimization */
 img {
     max-width: 100% !important;
     height: auto !important;
     display: block;
     width: 100% !important;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Images that have loaded */
+img.loaded {
+    opacity: 1;
 }
 
 /* Force all images to be responsive */
@@ -87,6 +94,44 @@ img[src] {
     max-width: 100% !important;
     height: auto !important;
     width: 100% !important;
+}
+
+/* Ensure hero text is always white and readable */
+.hero-content * {
+    color: #ffffff !important;
+}
+
+.hero-content h1,
+.hero-content h2,
+.hero-content h3,
+.hero-content h4,
+.hero-content h5,
+.hero-content h6 {
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+.hero-content p,
+.hero-content span,
+.hero-content div {
+    color: #ffffff !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Loading placeholder for images */
+img:not(.loaded) {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
 
 .container {
@@ -315,7 +360,7 @@ a:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(26, 35, 50, 0.8), rgba(217, 119, 6, 0.3));
+    background: linear-gradient(135deg, rgba(26, 35, 50, 0.85), rgba(0, 0, 0, 0.4), rgba(217, 119, 6, 0.2));
     z-index: 2;
 }
 
@@ -323,7 +368,7 @@ a:hover {
     position: relative;
     z-index: 3;
     text-align: center;
-    color: var(--white);
+    color: #ffffff !important;
     max-width: 800px;
     padding: 0 20px;
 }
@@ -331,13 +376,17 @@ a:hover {
 .hero-content h1 {
     font-size: 4rem;
     margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    font-weight: 700;
 }
 
 .hero-content p {
     font-size: 1.3rem;
     margin-bottom: 2rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    color: #ffffff !important;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    font-weight: 400;
 }
 
 .hero-buttons {
@@ -533,6 +582,15 @@ a:hover {
     padding: 2rem 0;
     max-width: 100%;
     overflow: hidden;
+}
+
+/* Image loading optimization */
+.service-image img,
+.about-images img,
+.project-image img {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .service-detail.reverse {

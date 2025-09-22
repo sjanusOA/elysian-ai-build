@@ -2,7 +2,7 @@
 (function() {
     'use strict';
     
-    // Lazy loading for images
+    // Enhanced image loading with lazy loading and optimization
     function lazyLoadImages() {
         const images = document.querySelectorAll('img[data-src]');
         const imageObserver = new IntersectionObserver((entries, observer) => {
@@ -15,6 +15,48 @@
                     imageObserver.unobserve(img);
                 }
             });
+        });
+        
+        images.forEach(img => imageObserver.observe(img));
+    }
+
+    // Optimize all images on page load
+    function optimizeAllImages() {
+        const images = document.querySelectorAll('img[src]');
+        
+        images.forEach(img => {
+            // Add loading event listener
+            img.addEventListener('load', function() {
+                this.classList.add('loaded');
+            });
+            
+            // Add error handling
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+                console.warn('Failed to load image:', this.src);
+            });
+            
+            // If image is already loaded (cached), add loaded class immediately
+            if (img.complete && img.naturalHeight !== 0) {
+                img.classList.add('loaded');
+            }
+        });
+    }
+
+    // Preload images that are likely to be viewed soon
+    function preloadVisibleImages() {
+        const images = document.querySelectorAll('img[src]');
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    // Force load the image
+                    img.style.opacity = '1';
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px' // Start loading 50px before image comes into view
         });
         
         images.forEach(img => imageObserver.observe(img));
@@ -65,6 +107,8 @@
     // Initialize all optimizations
     function init() {
         lazyLoadImages();
+        optimizeAllImages();
+        preloadVisibleImages();
         preloadCriticalImages();
         optimizeAnimations();
         registerServiceWorker();
