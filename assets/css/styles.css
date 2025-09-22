@@ -990,12 +990,12 @@ a:hover {
 .featured-projects-grid {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(10, 120px);
+    grid-template-rows: repeat(11, 120px);
     gap: 20px;
     margin-top: 3rem;
-    height: 100vh;
-    max-height: 1200px;
-    min-height: 700px;
+    height: auto;
+    max-height: none;
+    min-height: 800px;
 }
 
 .featured-project {
@@ -1037,17 +1037,17 @@ a:hover {
 
 .featured-project:nth-child(7) {
     grid-column: 1 / 5;
-    grid-row: 9 / 11;
+    grid-row: 10 / 11;
 }
 
 .featured-project:nth-child(8) {
     grid-column: 5 / 9;
-    grid-row: 9 / 11;
+    grid-row: 10 / 11;
 }
 
 .featured-project:nth-child(9) {
     grid-column: 9 / 13;
-    grid-row: 9 / 11;
+    grid-row: 10 / 11;
 }
 
 .project-image {
@@ -1510,10 +1510,10 @@ a:hover {
 
     .featured-projects-grid {
         grid-template-columns: repeat(8, 1fr);
-        grid-template-rows: repeat(12, 100px);
-        height: 80vh;
-        max-height: 1000px;
-        min-height: 800px;
+        grid-template-rows: repeat(11, 100px);
+        height: auto;
+        max-height: none;
+        min-height: 900px;
         gap: 15px;
     }
 
@@ -1549,17 +1549,17 @@ a:hover {
 
     .featured-project:nth-child(7) {
         grid-column: 1 / 3;
-        grid-row: 8 / 10;
+        grid-row: 10 / 11;
     }
 
     .featured-project:nth-child(8) {
         grid-column: 3 / 6;
-        grid-row: 8 / 10;
+        grid-row: 10 / 11;
     }
 
     .featured-project:nth-child(9) {
         grid-column: 6 / 9;
-        grid-row: 8 / 10;
+        grid-row: 10 / 11;
     }
 }
 
