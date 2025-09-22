@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project CMS - Elysian Build</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+        }
+        
+        .admin-section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 1rem;
+        }
+        
+        .btn:hover {
+            background: var(--red-orange-light);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .projects-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .project-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f8f9fa;
+        }
+        
+        .project-info {
+            flex: 1;
+        }
+        
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .drag-handle {
+            cursor: move;
+            padding: 0.5rem;
+            color: #666;
+        }
+        
+        .image-preview {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-item input {
+            flex: 1;
+            margin-right: 0.5rem;
+        }
+        
+        .remove-highlight {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .add-highlight {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Project CMS</h1>
+            <p>Manage featured projects for Elysian Build</p>
+        </div>
+
+        <!-- Add New Project Form -->
+        <div class="admin-section">
+            <h2>Add New Project</h2>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" name="description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectImage">Main Image URL</label>
+                    <input type="url" id="projectImage" name="image" required>
+                    <small>Enter the URL of the main project image</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectGallery">Gallery Images (one per line)</label>
+                    <textarea id="projectGallery" name="gallery" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg&#10;https://example.com/image3.jpg"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Key Highlights</label>
+                    <div id="highlightsContainer">
+                        <div class="highlight-item">
+                            <input type="text" name="highlights[]" placeholder="Enter highlight">
+                            <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" class="add-highlight" onclick="addHighlight()">Add Highlight</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectOrder">Display Order</label>
+                    <select id="projectOrder" name="order">
+                        <option value="1">1 (First)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9 (Last)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn">Add Project</button>
+            </form>
+        </div>
+
+        <!-- Manage Existing Projects -->
+        <div class="admin-section">
+            <h2>Manage Projects</h2>
+            <div id="projectsList" class="projects-list">
+                <!-- Projects will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load projects from localStorage
+        function loadProjects() {
+            const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+            const projectsList = document.getElementById('projectsList');
+            
+            if (projects.length === 0) {
+                projectsList.innerHTML = '<p>No projects found. Add your first project above!</p>';
+                return;
+            }
+            
+            // Sort by order
+            projects.sort((a, b) => a.order - b.order);
+            
+            projectsList.innerHTML = projects.map((project, index) => `
+                <div class="project-item" data-id="${project.id}">
+                    <div class="drag-handle">⋮⋮</div>
+                    <img src="${project.image}" alt="${project.title}" class="image-preview" onerror="this.src='assets/images/placeholder.jpg'">
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.description.substring(0, 100)}...</p>
+                        <small>Order: ${project.order}</small>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn" onclick="editProject('${project.id}')">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteProject('${project.id}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Add new project
+        document.getElementById('projectForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const highlights = Array.from(document.querySelectorAll('input[name="highlights[]"]')).map(input => input.value).filter(h => h.trim());
+            
+            const project = {
+                id: Date.now().toString(),
+                title: formData.get('title'),
+                description: formData.get('description'),
+                image: formData.get('image'),
+                gallery: formData.get('gallery').split('\n').filter(url => url.trim()),
+                highlights: highlights,
+                order: parseInt(formData.get('order')),
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+            projects.push(project);
+            localStorage.setItem('featuredProjects', JSON.stringify(projects));
+            
+            // Update homepage
+            updateHomepage();
+            
+            // Reset form
+            this.reset();
+            document.getElementById('highlightsContainer').innerHTML = `
+                <div class="highlight-item">
+                    <input type="text" name="highlights[]" placeholder="Enter highlight">
+                    <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
+                </div>
+            `;
+            
+            // Reload projects list
+            loadProjects();
+            
+            alert('Project added successfully!');
+        });
+
+        // Add highlight field
+        function addHighlight() {
+            const container = document.getElementById('highlightsContainer');
+            const div = document.createElement('div');
+            div.className = 'highlight-item';
+            div.innerHTML = `
+                <input type="text" name="highlights[]" placeholder="Enter highlight">
+                <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove highlight field
+        function removeHighlight(button) {
+            button.parentElement.remove();
+        }
+
+        // Delete project
+        function deleteProject(id) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+                const updatedProjects = projects.filter(p => p.id !== id);
+                localStorage.setItem('featuredProjects', JSON.stringify(updatedProjects));
+                updateHomepage();
+                loadProjects();
+            }
+        }
+
+        // Update homepage with current projects
+        function updateHomepage() {
+            const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+            projects.sort((a, b) => a.order - b.order);
+            
+            // Generate HTML for featured projects
+            const projectsHTML = projects.map(project => `
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('${project.image}')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>${project.title}</h3>
+                                <p>${project.description}</p>
+                                <a href="project-detail.html?id=${project.id}" class="project-link">LEARN MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update the featured projects grid
+            const grid = document.querySelector('.featured-projects-grid');
+            if (grid) {
+                grid.innerHTML = projectsHTML;
+            }
+        }
+
+        // Load projects on page load
+        loadProjects();
+    </script>
+</body>
+</html>
