@@ -540,13 +540,11 @@ a:hover {
     background: var(--white);
 }
 
-/* Masonry Grid Layout */
+/* Masonry Grid Layout - Column-based approach */
 .portfolio-masonry {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 1rem;
+    columns: 3;
+    column-gap: 1rem;
     padding: 2rem 0;
-    grid-auto-rows: minmax(200px, auto);
 }
 
 .portfolio-cell {
@@ -557,32 +555,36 @@ a:hover {
     transition: all 0.3s ease;
     cursor: pointer;
     background: var(--light-gray);
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    display: inline-block;
+    width: 100%;
 }
 
-/* Cell sizes based on the screenshot layout */
+/* Cell sizes - using height instead of grid spans */
 .portfolio-cell.wide {
-    grid-column: span 8;
+    height: 400px;
 }
 
 .portfolio-cell.medium {
-    grid-column: span 6;
+    height: 300px;
 }
 
 .portfolio-cell.narrow {
-    grid-column: span 4;
+    height: 250px;
 }
 
 .portfolio-cell.small {
-    grid-column: span 3;
+    height: 200px;
 }
 
 /* Heights for variety */
 .portfolio-cell.tall {
-    grid-row: span 2;
+    height: 500px;
 }
 
 .portfolio-cell.short {
-    grid-row: span 1;
+    height: 200px;
 }
 
 .portfolio-cell img {
@@ -635,6 +637,82 @@ a:hover {
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.9);
     margin: 0;
+}
+
+/* Featured Projects Preview Section */
+.featured-projects-preview {
+    padding: 100px 0;
+    background: var(--light-gray);
+}
+
+.projects-preview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.project-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.project-info h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.project-location {
+    color: var(--secondary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.project-description {
+    margin-bottom: 1.5rem;
+    color: var(--text-medium);
+}
+
+.project-specs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.spec {
+    background: var(--red-orange-subtle);
+    color: var(--primary-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.projects-cta {
+    text-align: center;
+}
+
+/* Testimonials Preview Section */
+.testimonials-preview {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.testimonials-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.testimonial-content p {
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    color: var(--text-medium);
+    font-size: 1.1rem;
 }
 
 /* Testimonials Section */
@@ -972,6 +1050,15 @@ a:hover {
         grid-template-columns: 1fr;
     }
 
+    .projects-preview {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .testimonials-preview-grid {
+        grid-template-columns: 1fr;
+    }
+
     .page-header h1 {
         font-size: 2rem;
     }
@@ -987,24 +1074,8 @@ a:hover {
 
     /* Masonry responsive adjustments */
     .portfolio-masonry {
-        grid-template-columns: repeat(6, 1fr);
-        gap: 0.75rem;
-    }
-
-    .portfolio-cell.wide {
-        grid-column: span 6;
-    }
-
-    .portfolio-cell.medium {
-        grid-column: span 6;
-    }
-
-    .portfolio-cell.narrow {
-        grid-column: span 3;
-    }
-
-    .portfolio-cell.small {
-        grid-column: span 3;
+        columns: 2;
+        column-gap: 0.75rem;
     }
 
     .portfolio-overlay {
@@ -1043,24 +1114,8 @@ a:hover {
     }
 
     .portfolio-masonry {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.5rem;
-    }
-
-    .portfolio-cell.wide {
-        grid-column: span 4;
-    }
-
-    .portfolio-cell.medium {
-        grid-column: span 4;
-    }
-
-    .portfolio-cell.narrow {
-        grid-column: span 2;
-    }
-
-    .portfolio-cell.small {
-        grid-column: span 2;
+        columns: 1;
+        column-gap: 0.5rem;
     }
 
     .testimonials-grid {
