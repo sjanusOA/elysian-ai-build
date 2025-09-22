@@ -324,10 +324,27 @@
         document.getElementById('projectImage').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select a valid image file for the main image.');
+                    this.value = '';
+                    return;
+                }
+                
+                // Validate file size
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('Image file is too large. Please select a file smaller than 10MB.');
+                    this.value = '';
+                    return;
+                }
+                
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('mainImagePreviewImg').src = e.target.result;
                     document.getElementById('mainImagePreview').style.display = 'block';
+                };
+                reader.onerror = function() {
+                    alert('Failed to load image. Please try again.');
                 };
                 reader.readAsDataURL(file);
             }
@@ -340,6 +357,18 @@
             galleryPreview.innerHTML = '';
             
             files.forEach((file, index) => {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert(`File ${file.name} is not a valid image file. Please select only image files.`);
+                    return;
+                }
+                
+                // Validate file size
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`File ${file.name} is too large. Please select files smaller than 10MB.`);
+                    return;
+                }
+                
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const galleryItem = document.createElement('div');
@@ -350,6 +379,9 @@
                     `;
                     galleryPreview.appendChild(galleryItem);
                 };
+                reader.onerror = function() {
+                    alert(`Failed to load image ${file.name}. Please try again.`);
+                };
                 reader.readAsDataURL(file);
             });
         });
@@ -359,12 +391,24 @@
             button.parentElement.remove();
         }
 
-        // Convert file to data URL
+        // Convert file to data URL with validation
         function fileToDataURL(file) {
             return new Promise((resolve, reject) => {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    reject(new Error('File must be an image'));
+                    return;
+                }
+                
+                // Validate file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    reject(new Error('File size must be less than 10MB'));
+                    return;
+                }
+                
                 const reader = new FileReader();
                 reader.onload = e => resolve(e.target.result);
-                reader.onerror = e => reject(e);
+                reader.onerror = e => reject(new Error('Failed to read file'));
                 reader.readAsDataURL(file);
             });
         }
@@ -381,24 +425,16 @@
                 const mainImageFile = formData.get('image');
                 const mainImageDataURL = await fileToDataURL(mainImageFile);
                 
-                // Convert gallery images to data URLs
-                const galleryFiles = Array.from(document.querySelectorAll('.gallery-preview-item img')).map(img => {
-                    // Create a temporary file from the data URL
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    const tempImg = new Image();
-                    tempImg.src = img.src;
-                    return new Promise(resolve => {
-                        tempImg.onload = () => {
-                            canvas.width = tempImg.width;
-                            canvas.height = tempImg.height;
-                            ctx.drawImage(tempImg, 0, 0);
-                            canvas.toBlob(resolve, 'image/jpeg', 0.8);
-                        };
-                    });
-                });
+                // Convert gallery images to data URLs (simplified approach)
+                const galleryDataURLs = [];
+                const galleryFiles = formData.getAll('gallery');
                 
-                const galleryDataURLs = await Promise.all(galleryFiles.map(file => fileToDataURL(file)));
+                for (let i = 0; i < galleryFiles.length; i++) {
+                    if (galleryFiles[i] && galleryFiles[i].size > 0) {
+                        const dataURL = await fileToDataURL(galleryFiles[i]);
+                        galleryDataURLs.push(dataURL);
+                    }
+                }
                 
                 const project = {
                     id: Date.now().toString(),
@@ -436,7 +472,7 @@
                 alert('Project added successfully!');
             } catch (error) {
                 console.error('Error processing images:', error);
-                alert('Error processing images. Please try again.');
+                alert('Error processing images. Please make sure you selected valid image files and try again.');
             }
         });
 
