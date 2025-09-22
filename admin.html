@@ -314,10 +314,17 @@
             // Sort by order
             projects.sort((a, b) => a.order - b.order);
             
-            const projectsHTML = projects.map((project, index) => `
+            const projectsHTML = projects.map((project, index) => {
+                console.log(`Project ${index + 1}:`, {
+                    title: project.title,
+                    image: project.image ? project.image.substring(0, 50) + '...' : 'NO IMAGE',
+                    imageType: project.image ? project.image.substring(0, 20) : 'NO IMAGE'
+                });
+                
+                return `
                 <div class="project-item" data-id="${project.id}">
                     <div class="drag-handle">⋮⋮</div>
-                    <img src="${project.image}" alt="${project.title}" class="image-preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yMCAyMEg0MFY0MEgyMFYyMFoiIGZpbGw9IiNEOUQ5RDkiLz4KPHBhdGggZD0iTTI1IDI1SDM1VjM1SDI1VjI1WiIgZmlsbD0iI0NDQ0NDQyIvPgo8L3N2Zz4K'">
+                    <img src="${project.image}" alt="${project.title}" class="image-preview" onerror="console.error('Image failed to load for project:', '${project.title}'); this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yMCAyMEg0MFY0MEgyMFYyMFoiIGZpbGw9IiNEOUQ5RDkiLz4KPHBhdGggZD0iTTI1IDI1SDM1VjM1SDI1VjI1WiIgZmlsbD0iI0NDQ0NDQyIvPgo8L3N2Zz4K'">
                     <div class="project-info">
                         <h3>${project.title}</h3>
                         <p>${project.description.substring(0, 100)}...</p>
@@ -328,10 +335,24 @@
                         <button class="btn btn-danger" onclick="deleteProject('${project.id}')">Delete</button>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
             
             projectsList.innerHTML = projectsHTML;
             console.log('Projects loaded successfully in management area');
+            
+            // Test if images are being created
+            const images = projectsList.querySelectorAll('.image-preview');
+            console.log('Found', images.length, 'image elements');
+            images.forEach((img, index) => {
+                console.log(`Image ${index + 1}:`, {
+                    src: img.src.substring(0, 50) + '...',
+                    naturalWidth: img.naturalWidth,
+                    naturalHeight: img.naturalHeight,
+                    complete: img.complete,
+                    readyState: img.readyState
+                });
+            });
         }
 
         // Handle main image preview
