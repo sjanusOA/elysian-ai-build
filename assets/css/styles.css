@@ -91,6 +91,16 @@ img.footer-logo-img {
     max-width: none !important;
     height: auto !important;
     display: inline-block !important;
+    opacity: 1 !important;
+}
+
+/* Specific logo sizing override */
+.nav-logo .logo-img {
+    height: 50px !important;
+    width: auto !important;
+    max-width: 150px !important;
+    display: inline-block !important;
+    opacity: 1 !important;
 }
 
 /* Images that have loaded */
@@ -245,6 +255,14 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    order: 1;
 }
 
 .nav-logo a {
@@ -255,10 +273,11 @@ a:hover {
 }
 
 .logo-img {
-    height: 60px !important;
+    height: 50px !important;
     width: auto !important;
-    max-width: 200px !important;
+    max-width: 150px !important;
     object-fit: contain;
+    display: inline-block !important;
 }
 
 .nav-menu {
@@ -1333,8 +1352,8 @@ a:hover {
     }
 
     .logo-img {
-        height: 50px !important;
-        max-width: 150px !important;
+        height: 40px !important;
+        max-width: 120px !important;
     }
 
     .footer-logo-img {
