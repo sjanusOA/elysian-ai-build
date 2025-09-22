@@ -145,6 +145,44 @@
             cursor: pointer;
             margin-top: 0.5rem;
         }
+        
+        .image-preview-container {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .gallery-preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .gallery-preview-item {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .gallery-preview-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        
+        .remove-gallery-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -169,14 +207,21 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="projectImage">Main Image URL</label>
-                    <input type="url" id="projectImage" name="image" required>
-                    <small>Enter the URL of the main project image</small>
+                    <label for="projectImage">Main Project Image</label>
+                    <input type="file" id="projectImage" name="image" accept="image/*" required>
+                    <small>Upload the main project image (JPG, PNG, WebP)</small>
+                    <div id="mainImagePreview" class="image-preview-container" style="display: none;">
+                        <img id="mainImagePreviewImg" class="image-preview" alt="Main image preview">
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="projectGallery">Gallery Images (one per line)</label>
-                    <textarea id="projectGallery" name="gallery" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg&#10;https://example.com/image3.jpg"></textarea>
+                    <label for="projectGallery">Gallery Images</label>
+                    <input type="file" id="projectGallery" name="gallery" accept="image/*" multiple>
+                    <small>Upload multiple images for the project gallery (JPG, PNG, WebP)</small>
+                    <div id="galleryPreview" class="gallery-preview-container">
+                        <!-- Gallery preview images will be added here -->
+                    </div>
                 </div>
                 
                 <div class="form-group">
@@ -235,11 +280,11 @@
             projectsList.innerHTML = projects.map((project, index) => `
                 <div class="project-item" data-id="${project.id}">
                     <div class="drag-handle">⋮⋮</div>
-                    <img src="${project.image}" alt="${project.title}" class="image-preview" onerror="this.src='assets/images/placeholder.jpg'">
+                    <img src="${project.image}" alt="${project.title}" class="image-preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yMCAyMEg0MFY0MEgyMFYyMFoiIGZpbGw9IiNEOUQ5RDkiLz4KPHBhdGggZD0iTTI1IDI1SDM1VjM1SDI1VjI1WiIgZmlsbD0iI0NDQ0NDQyIvPgo8L3N2Zz4K'">
                     <div class="project-info">
                         <h3>${project.title}</h3>
                         <p>${project.description.substring(0, 100)}...</p>
-                        <small>Order: ${project.order}</small>
+                        <small>Order: ${project.order} | Gallery: ${project.gallery ? project.gallery.length : 0} images</small>
                     </div>
                     <div class="project-actions">
                         <button class="btn" onclick="editProject('${project.id}')">Edit</button>
@@ -249,45 +294,124 @@
             `).join('');
         }
 
+        // Handle main image preview
+        document.getElementById('projectImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('mainImagePreviewImg').src = e.target.result;
+                    document.getElementById('mainImagePreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle gallery images preview
+        document.getElementById('projectGallery').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const galleryPreview = document.getElementById('galleryPreview');
+            galleryPreview.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-preview-item';
+                    galleryItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Gallery preview ${index + 1}">
+                        <button type="button" class="remove-gallery-image" onclick="removeGalleryImage(this)">×</button>
+                    `;
+                    galleryPreview.appendChild(galleryItem);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Remove gallery image from preview
+        function removeGalleryImage(button) {
+            button.parentElement.remove();
+        }
+
+        // Convert file to data URL
+        function fileToDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(e);
+                reader.readAsDataURL(file);
+            });
+        }
+
         // Add new project
-        document.getElementById('projectForm').addEventListener('submit', function(e) {
+        document.getElementById('projectForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
             const highlights = Array.from(document.querySelectorAll('input[name="highlights[]"]')).map(input => input.value).filter(h => h.trim());
             
-            const project = {
-                id: Date.now().toString(),
-                title: formData.get('title'),
-                description: formData.get('description'),
-                image: formData.get('image'),
-                gallery: formData.get('gallery').split('\n').filter(url => url.trim()),
-                highlights: highlights,
-                order: parseInt(formData.get('order')),
-                createdAt: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
-            projects.push(project);
-            localStorage.setItem('featuredProjects', JSON.stringify(projects));
-            
-            // Update homepage
-            updateHomepage();
-            
-            // Reset form
-            this.reset();
-            document.getElementById('highlightsContainer').innerHTML = `
-                <div class="highlight-item">
-                    <input type="text" name="highlights[]" placeholder="Enter highlight">
-                    <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
-                </div>
-            `;
-            
-            // Reload projects list
-            loadProjects();
-            
-            alert('Project added successfully!');
+            try {
+                // Convert main image to data URL
+                const mainImageFile = formData.get('image');
+                const mainImageDataURL = await fileToDataURL(mainImageFile);
+                
+                // Convert gallery images to data URLs
+                const galleryFiles = Array.from(document.querySelectorAll('.gallery-preview-item img')).map(img => {
+                    // Create a temporary file from the data URL
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const tempImg = new Image();
+                    tempImg.src = img.src;
+                    return new Promise(resolve => {
+                        tempImg.onload = () => {
+                            canvas.width = tempImg.width;
+                            canvas.height = tempImg.height;
+                            ctx.drawImage(tempImg, 0, 0);
+                            canvas.toBlob(resolve, 'image/jpeg', 0.8);
+                        };
+                    });
+                });
+                
+                const galleryDataURLs = await Promise.all(galleryFiles.map(file => fileToDataURL(file)));
+                
+                const project = {
+                    id: Date.now().toString(),
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    image: mainImageDataURL,
+                    gallery: galleryDataURLs,
+                    highlights: highlights,
+                    order: parseInt(formData.get('order')),
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+                projects.push(project);
+                localStorage.setItem('featuredProjects', JSON.stringify(projects));
+                
+                // Update homepage
+                updateHomepage();
+                
+                // Reset form
+                this.reset();
+                document.getElementById('highlightsContainer').innerHTML = `
+                    <div class="highlight-item">
+                        <input type="text" name="highlights[]" placeholder="Enter highlight">
+                        <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
+                    </div>
+                `;
+                document.getElementById('mainImagePreview').style.display = 'none';
+                document.getElementById('galleryPreview').innerHTML = '';
+                
+                // Reload projects list
+                loadProjects();
+                
+                alert('Project added successfully!');
+            } catch (error) {
+                console.error('Error processing images:', error);
+                alert('Error processing images. Please try again.');
+            }
         });
 
         // Add highlight field
