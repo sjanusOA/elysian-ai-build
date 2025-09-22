@@ -292,8 +292,17 @@
 
         // Load projects from localStorage
         function loadProjects() {
+            console.log('Loading projects for management...');
             const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
             const projectsList = document.getElementById('projectsList');
+            
+            console.log('Found projects in localStorage:', projects.length);
+            console.log('Projects data:', projects);
+            
+            if (!projectsList) {
+                console.error('Projects list element not found!');
+                return;
+            }
             
             if (projects.length === 0) {
                 projectsList.innerHTML = '<p>No projects found. Add your first project above!</p>';
@@ -303,7 +312,7 @@
             // Sort by order
             projects.sort((a, b) => a.order - b.order);
             
-            projectsList.innerHTML = projects.map((project, index) => `
+            const projectsHTML = projects.map((project, index) => `
                 <div class="project-item" data-id="${project.id}">
                     <div class="drag-handle">⋮⋮</div>
                     <img src="${project.image}" alt="${project.title}" class="image-preview" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yMCAyMEg0MFY0MEgyMFYyMFoiIGZpbGw9IiNEOUQ5RDkiLz4KPHBhdGggZD0iTTI1IDI1SDM1VjM1SDI1VjI1WiIgZmlsbD0iI0NDQ0NDQyIvPgo8L3N2Zz4K'">
@@ -318,6 +327,9 @@
                     </div>
                 </div>
             `).join('');
+            
+            projectsList.innerHTML = projectsHTML;
+            console.log('Projects loaded successfully in management area');
         }
 
         // Handle main image preview
@@ -521,7 +533,17 @@
         }
 
         // Load projects on page load
-        loadProjects();
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProjects();
+        });
+        
+        // Also call immediately in case DOM is already loaded
+        if (document.readyState === 'loading') {
+            // DOM is still loading, wait for DOMContentLoaded
+        } else {
+            // DOM is already loaded, call immediately
+            loadProjects();
+        }
     </script>
 </body>
 </html>
