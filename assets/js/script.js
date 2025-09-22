@@ -544,7 +544,22 @@ const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.dot');
 const totalSlides = slides.length;
 
+function loadSlideImages() {
+    slides.forEach((slide, index) => {
+        const bg = slide.dataset.bg;
+        if (bg) {
+            const img = new Image();
+            img.onload = () => {
+                slide.style.backgroundImage = `url(${bg})`;
+            };
+            img.src = bg;
+        }
+    });
+}
+
 function initHeroSlider() {
+    loadSlideImages();
+    
     // Auto-advance slides every 6 seconds
     sliderInterval = setInterval(() => {
         changeSlide(1);
