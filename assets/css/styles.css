@@ -253,16 +253,17 @@ a:hover {
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
+    gap: 2rem;
 }
 
 .nav-logo {
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    order: 1;
+    margin-right: auto;
 }
 
 .nav-logo a {
@@ -284,6 +285,8 @@ a:hover {
     display: flex;
     list-style: none;
     gap: 2rem;
+    margin-left: auto;
+    align-items: center;
 }
 
 .nav-link {
