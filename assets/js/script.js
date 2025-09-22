@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initImageLazyLoading();
     initAnimations();
     initProjectGallery();
+    initHeroSlider();
 });
 
 // Navigation functionality
@@ -535,3 +536,93 @@ function preloadImages() {
 
 // Initialize image preloading
 document.addEventListener('DOMContentLoaded', preloadImages);
+
+// Hero Slider functionality
+let currentSlideIndex = 0;
+let sliderInterval;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
+const totalSlides = slides.length;
+
+function initHeroSlider() {
+    // Auto-advance slides every 6 seconds
+    sliderInterval = setInterval(() => {
+        changeSlide(1);
+    }, 6000);
+    
+    // Add touch/swipe support for mobile
+    let startX = 0;
+    let endX = 0;
+    const hero = document.querySelector('.hero');
+    
+    hero.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+    
+    hero.addEventListener('touchend', (e) => {
+        endX = e.changedTouches[0].clientX;
+        handleSwipe();
+    });
+    
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > swipeThreshold) {
+            if (diff > 0) {
+                changeSlide(1); // Swipe left - next slide
+            } else {
+                changeSlide(-1); // Swipe right - previous slide
+            }
+        }
+    }
+}
+
+function changeSlide(direction) {
+    // Remove active class from current slide and dot
+    slides[currentSlideIndex].classList.remove('active');
+    dots[currentSlideIndex].classList.remove('active');
+    
+    // Calculate new slide index
+    currentSlideIndex += direction;
+    
+    // Handle wrap-around
+    if (currentSlideIndex >= totalSlides) {
+        currentSlideIndex = 0;
+    } else if (currentSlideIndex < 0) {
+        currentSlideIndex = totalSlides - 1;
+    }
+    
+    // Add active class to new slide and dot
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+}
+
+function currentSlide(slideNumber) {
+    // Remove active class from current slide and dot
+    slides[currentSlideIndex].classList.remove('active');
+    dots[currentSlideIndex].classList.remove('active');
+    
+    // Set new slide index
+    currentSlideIndex = slideNumber - 1;
+    
+    // Add active class to new slide and dot
+    slides[currentSlideIndex].classList.add('active');
+    dots[currentSlideIndex].classList.add('active');
+}
+
+// Pause auto-advance when user interacts with slider
+function pauseSlider() {
+    clearInterval(sliderInterval);
+}
+
+function resumeSlider() {
+    sliderInterval = setInterval(() => {
+        changeSlide(1);
+    }, 6000);
+}
+
+// Add pause/resume on hover
+const hero = document.querySelector('.hero');
+hero.addEventListener('mouseenter', pauseSlider);
+hero.addEventListener('mouseleave', resumeSlider);

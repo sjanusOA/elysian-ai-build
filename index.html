@@ -36,6 +36,19 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero">
+        <div class="hero-slider">
+            <div class="slide active" style="background-image: url('assets/images/portfolio/project1/hero-slide-1.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-2.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-3.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-4.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-5.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-6.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-7.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-8.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-9.jpg')"></div>
+            <div class="slide" style="background-image: url('assets/images/portfolio/project1/hero-slide-10.jpg')"></div>
+        </div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Building Dreams Into Reality</h1>
             <p>Elysian Build creates extraordinary custom homes and luxury renovations that reflect your vision and exceed your expectations.</p>
@@ -44,8 +57,21 @@
                 <a href="#contact" class="btn btn-secondary">Start Your Project</a>
             </div>
         </div>
-        <div class="hero-image">
-            <img src="assets/images/hero-mansion.jpg" alt="Luxury custom home exterior">
+        <div class="slider-controls">
+            <button class="slider-btn prev-btn" onclick="changeSlide(-1)">‹</button>
+            <button class="slider-btn next-btn" onclick="changeSlide(1)">›</button>
+        </div>
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+            <span class="dot" onclick="currentSlide(8)"></span>
+            <span class="dot" onclick="currentSlide(9)"></span>
+            <span class="dot" onclick="currentSlide(10)"></span>
         </div>
     </section>
 
