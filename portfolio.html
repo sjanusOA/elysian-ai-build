@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Elysian Build | Luxury Home Construction</title>
+    <meta name="description" content="Explore our gallery of completed luxury construction projects including custom homes, renovations, and commercial buildings.">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="assets/images/elysian-logo-color.avif" alt="Elysian Build" class="logo-img">
+                    <div class="logo-text">
+                        <h2>Elysian Build</h2>
+                        <span>Luxury Construction</span>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="portfolio.html" class="nav-link active">Portfolio</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="page-header-content">
+            <h1>Our Portfolio</h1>
+            <p>Luxury Construction Excellence</p>
+        </div>
+        <div class="page-header-bg" style="background-image: url('assets/images/portfolio/mansion-1.jpg')"></div>
+        <div class="page-header-overlay"></div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2>Explore Our Work</h2>
+                <p>Discover our gallery of completed luxury construction projects that showcase our commitment to excellence and attention to detail.</p>
+            </div>
+            
+            <div class="portfolio-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="custom">Custom Homes</button>
+                <button class="filter-btn" data-filter="renovation">Renovations</button>
+                <button class="filter-btn" data-filter="commercial">Commercial</button>
+            </div>
+            
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="custom">
+                    <img src="assets/images/portfolio/mansion-1.jpg" alt="Modern luxury mansion">
+                    <div class="portfolio-overlay">
+                        <h3>Modern Estate</h3>
+                        <p>15,000 sq ft custom home featuring contemporary design and smart home technology.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Custom Home</span>
+                            <span class="project-size">15,000 sq ft</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="custom">
+                    <img src="assets/images/portfolio/mansion-2.jpg" alt="Traditional luxury home">
+                    <div class="portfolio-overlay">
+                        <h3>Classic Manor</h3>
+                        <p>12,000 sq ft traditional home with timeless architectural details and premium finishes.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Custom Home</span>
+                            <span class="project-size">12,000 sq ft</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="renovation">
+                    <img src="assets/images/portfolio/renovation-1.jpg" alt="Kitchen renovation">
+                    <div class="portfolio-overlay">
+                        <h3>Kitchen Transformation</h3>
+                        <p>Complete luxury kitchen remodel featuring custom cabinetry and premium appliances.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Renovation</span>
+                            <span class="project-size">Kitchen</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="renovation">
+                    <img src="assets/images/portfolio/renovation-2.jpg" alt="Master suite renovation">
+                    <div class="portfolio-overlay">
+                        <h3>Master Suite</h3>
+                        <p>Luxury master suite renovation with spa-like bathroom and custom walk-in closet.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Renovation</span>
+                            <span class="project-size">Master Suite</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="custom">
+                    <img src="assets/images/portfolio/mansion-3.jpg" alt="Contemporary luxury home">
+                    <div class="portfolio-overlay">
+                        <h3>Contemporary Villa</h3>
+                        <p>18,000 sq ft contemporary home with floor-to-ceiling windows and open living spaces.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Custom Home</span>
+                            <span class="project-size">18,000 sq ft</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="commercial">
+                    <img src="assets/images/portfolio/commercial-1.jpg" alt="Luxury office building">
+                    <div class="portfolio-overlay">
+                        <h3>Corporate Headquarters</h3>
+                        <p>50,000 sq ft office complex featuring modern design and sustainable building practices.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Commercial</span>
+                            <span class="project-size">50,000 sq ft</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="custom">
+                    <img src="assets/images/portfolio/mansion-4.jpg" alt="Mediterranean style home">
+                    <div class="portfolio-overlay">
+                        <h3>Mediterranean Estate</h3>
+                        <p>20,000 sq ft Mediterranean home with courtyard and outdoor living areas.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Custom Home</span>
+                            <span class="project-size">20,000 sq ft</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="renovation">
+                    <img src="assets/images/portfolio/renovation-3.jpg" alt="Bathroom renovation">
+                    <div class="portfolio-overlay">
+                        <h3>Spa Bathroom</h3>
+                        <p>Luxury bathroom renovation featuring marble finishes and steam shower.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Renovation</span>
+                            <span class="project-size">Bathroom</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="portfolio-item" data-category="custom">
+                    <img src="assets/images/portfolio/mansion-5.jpg" alt="Rustic luxury home">
+                    <div class="portfolio-overlay">
+                        <h3>Mountain Retreat</h3>
+                        <p>14,000 sq ft mountain home with rustic luxury design and panoramic views.</p>
+                        <div class="portfolio-details">
+                            <span class="project-type">Custom Home</span>
+                            <span class="project-size">14,000 sq ft</span>
+                        </div>
+                        <a href="projects.html" class="portfolio-link">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Statistics -->
+    <section class="project-stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">200+</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">$500M+</div>
+                    <div class="stat-label">Total Project Value</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Client Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Create Your Dream Project?</h2>
+                <p>Let's discuss your vision and bring it to life with Elysian Build's expertise and craftsmanship.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn btn-primary">Start Your Project</a>
+                    <a href="about.html" class="btn btn-secondary">Learn About Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/images/elysian-logo-color.avif" alt="Elysian Build" class="footer-logo-img">
+                        <div class="footer-logo-text">
+                            <h3>Elysian Build</h3>
+                            <p>Luxury Construction</p>
+                        </div>
+                    </div>
+                    <p>Creating extraordinary homes that exceed expectations through unparalleled craftsmanship and attention to detail.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html">Custom Home Construction</a></li>
+                        <li><a href="services.html">Luxury Renovations</a></li>
+                        <li><a href="services.html">Architectural Design</a></li>
+                        <li><a href="services.html">Landscape Architecture</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="projects.html">Featured Projects</a></li>
+                        <li><a href="testimonials.html">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> 70 Alpha Avenue, Stonington, CT 06378</p>
+                        <p><i class="fas fa-phone"></i> 860.345.5731</p>
+                        <p><i class="fas fa-envelope"></i> info@elysianbuild.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Elysian Build. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
