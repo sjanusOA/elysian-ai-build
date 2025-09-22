@@ -212,6 +212,74 @@
             font-size: 1.2rem;
         }
         
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .projects-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .project-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .project-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        
+        .project-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-dark);
+        }
+        
+        .project-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0 0 1rem 0;
+            line-height: 1.4;
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .no-projects {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #666;
+        }
+        
+        .no-projects i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
         .recent-activity {
             background: white;
             padding: 2rem;
@@ -402,13 +470,22 @@
 
             <!-- Projects Section -->
             <div class="dashboard-content" id="projects">
-                <div style="text-align: center; padding: 4rem 2rem;">
-                    <i class="fas fa-building" style="font-size: 4rem; color: var(--secondary-color); margin-bottom: 1rem;"></i>
+                <div class="section-header">
                     <h2>Project Management</h2>
-                    <p>Manage your featured projects and case studies</p>
-                    <a href="admin.html" class="action-btn" style="display: inline-flex; margin-top: 1rem;">
-                        <i class="fas fa-arrow-right"></i>
-                        Go to Project Manager
+                    <a href="admin.html" class="action-btn">
+                        <i class="fas fa-plus"></i>
+                        Add New Project
+                    </a>
+                </div>
+                
+                <div id="projectsList" class="projects-overview">
+                    <!-- Projects will be loaded here -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="admin.html" class="action-btn" style="display: inline-flex;">
+                        <i class="fas fa-cog"></i>
+                        Manage All Projects
                     </a>
                 </div>
             </div>
@@ -483,6 +560,11 @@
                 settings: 'Settings'
             };
             document.getElementById('pageTitle').textContent = titles[sectionName];
+            
+            // Load section-specific data
+            if (sectionName === 'projects') {
+                loadDashboardProjects();
+            }
         }
 
         // Load dashboard stats
@@ -493,6 +575,53 @@
             document.getElementById('featuredProjects').textContent = projects.length;
             document.getElementById('totalViews').textContent = Math.floor(Math.random() * 1000) + 500;
             document.getElementById('thisMonth').textContent = Math.floor(Math.random() * 50) + 10;
+        }
+        
+        // Load projects for dashboard
+        function loadDashboardProjects() {
+            const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+            const projectsList = document.getElementById('projectsList');
+            
+            if (projects.length === 0) {
+                projectsList.innerHTML = `
+                    <div class="no-projects">
+                        <i class="fas fa-building"></i>
+                        <h3>No Projects Yet</h3>
+                        <p>Start by adding your first featured project</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by order
+            projects.sort((a, b) => a.order - b.order);
+            
+            // Show only the first 6 projects
+            const displayProjects = projects.slice(0, 6);
+            
+            projectsList.innerHTML = displayProjects.map(project => `
+                <div class="project-card">
+                    <img src="${project.image}" alt="${project.title}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDMwMCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMTUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0xMjUgNTBIMTc1VjEwMEgxMjVWNTBaIiBmaWxsPSIjRDlEOUQ5Ii8+CjxwYXRoIGQ9Ik0xMzUgNjBIMTY1VjkwSDEzNVY2MFoiIGZpbGw9IiNDQ0NDQ0MiLz4KPC9zdmc+Cg=='">
+                    <h3>${project.title}</h3>
+                    <p>${project.description.substring(0, 100)}...</p>
+                    <div class="project-meta">
+                        <span>Order: ${project.order}</span>
+                        <span>${project.gallery ? project.gallery.length : 0} images</span>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add "show more" if there are more than 6 projects
+            if (projects.length > 6) {
+                projectsList.innerHTML += `
+                    <div class="project-card" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+                        <div>
+                            <i class="fas fa-ellipsis-h" style="font-size: 2rem; color: #ddd; margin-bottom: 1rem;"></i>
+                            <p>+${projects.length - 6} more projects</p>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         // Logout function
