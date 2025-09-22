@@ -84,6 +84,15 @@ img {
     transition: opacity 0.3s ease;
 }
 
+/* Exclude logos from global image sizing */
+img.logo-img,
+img.footer-logo-img {
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    display: inline-block !important;
+}
+
 /* Images that have loaded */
 img.loaded {
     opacity: 1;
@@ -246,8 +255,9 @@ a:hover {
 }
 
 .logo-img {
-    height: 60px;
-    width: auto;
+    height: 60px !important;
+    width: auto !important;
+    max-width: 200px !important;
     object-fit: contain;
 }
 
@@ -1183,8 +1193,9 @@ a:hover {
 }
 
 .footer-logo-img {
-    height: 80px;
-    width: auto;
+    height: 80px !important;
+    width: auto !important;
+    max-width: 250px !important;
     object-fit: contain;
 }
 
@@ -1322,11 +1333,13 @@ a:hover {
     }
 
     .logo-img {
-        height: 50px;
+        height: 50px !important;
+        max-width: 150px !important;
     }
 
     .footer-logo-img {
-        height: 60px;
+        height: 60px !important;
+        max-width: 200px !important;
     }
 
     .about-content {
