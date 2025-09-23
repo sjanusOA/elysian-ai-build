@@ -155,6 +155,38 @@
     </div>
 
     <script>
+        // Check if we're on GitHub Pages
+        const isGitHubPages = !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1');
+        
+        if (isGitHubPages) {
+            // On GitHub Pages, show a message that admin is not available
+            document.body.innerHTML = `
+                <div class="login-container">
+                    <div class="login-box">
+                        <div class="login-header">
+                            <h1>Admin Login</h1>
+                            <p>Elysian Build Admin Panel</p>
+                        </div>
+                        <div style="text-align: center; padding: 2rem;">
+                            <i class="fas fa-info-circle" style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 1rem;"></i>
+                            <h2>Admin Panel Not Available</h2>
+                            <p>The admin panel requires local development environment to function properly.</p>
+                            <p>For project management, please run the website locally using:</p>
+                            <code style="background: #f8f9fa; padding: 0.5rem; border-radius: 4px; display: block; margin: 1rem auto; max-width: 300px;">
+                                python3 -m http.server 8001
+                            </code>
+                            <p>Then visit: <code>http://localhost:8001/admin-login.html</code></p>
+                            <a href="index.html" class="login-button" style="display: inline-flex; margin-top: 1rem;">
+                                <i class="fas fa-arrow-left"></i>
+                                Back to Website
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
         // Default admin credentials (in production, these would be server-side)
         const ADMIN_CREDENTIALS = {
             username: 'admin',

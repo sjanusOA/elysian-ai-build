@@ -11,14 +11,26 @@ document.addEventListener('DOMContentLoaded', function() {
 // Load featured projects from localStorage and update homepage
 function loadFeaturedProjects() {
     console.log('Loading featured projects...');
-    const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
-    console.log('Found projects:', projects.length);
     
-    // If no projects in localStorage, use default projects
-    if (projects.length === 0) {
-        console.log('No projects found, loading defaults...');
-        loadDefaultProjects();
-        return;
+    // Check if we're on GitHub Pages (no localhost)
+    const isGitHubPages = !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1');
+    
+    let projects = [];
+    
+    if (isGitHubPages) {
+        // On GitHub Pages, use default projects only
+        console.log('GitHub Pages detected, using default projects...');
+        projects = getDefaultProjects();
+    } else {
+        // On localhost, try localStorage first
+        projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+        console.log('Found projects in localStorage:', projects.length);
+        
+        // If no projects in localStorage, use default projects
+        if (projects.length === 0) {
+            console.log('No projects found, loading defaults...');
+            projects = getDefaultProjects();
+        }
     }
     
     // Sort by order
@@ -28,9 +40,9 @@ function loadFeaturedProjects() {
     updateFeaturedProjectsGrid(projects);
 }
 
-// Load default projects if none exist
-function loadDefaultProjects() {
-    const defaultProjects = [
+// Get default projects for GitHub Pages
+function getDefaultProjects() {
+    return [
         {
             id: '1',
             title: 'Modern Estate',
@@ -122,12 +134,6 @@ function loadDefaultProjects() {
             createdAt: new Date().toISOString()
         }
     ];
-    
-    // Save default projects to localStorage
-    localStorage.setItem('featuredProjects', JSON.stringify(defaultProjects));
-    
-    // Update the grid
-    updateFeaturedProjectsGrid(defaultProjects);
 }
 
 // Update the featured projects grid with project data

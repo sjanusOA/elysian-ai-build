@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysian Build - Luxury Home Construction</title>
+    <meta name="description" content="Elysian Build specializes in luxury custom home construction, premium renovations, and architectural excellence. Creating dream homes that exceed expectations.">
+    <link rel="preload" href="assets/css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="assets/css/styles.css"></noscript>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></noscript>
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="assets/images/elysian-logo-color.avif" alt="Elysian Build" class="logo-img">
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link active">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="services.html" class="nav-link">Services</a></li>
+                <li><a href="portfolio.html" class="nav-link">Portfolio</a></li>
+                <li><a href="projects.html" class="nav-link">Projects</a></li>
+                <li><a href="testimonials.html" class="nav-link">Testimonials</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+           <div class="hero-slider">
+               <div class="slide active" data-bg="assets/images/portfolio/project1/hero-slide-1.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-2.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-3.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-4.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-5.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-6.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-7.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-8.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-9.jpg"></div>
+               <div class="slide" data-bg="assets/images/portfolio/project1/hero-slide-10.jpg"></div>
+           </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Building Dreams Into Reality</h1>
+            <p>Elysian Build creates extraordinary custom homes and luxury renovations that reflect your vision and exceed your expectations.</p>
+            <div class="hero-buttons">
+                <a href="#featured-projects" class="btn btn-primary">View Our Work</a>
+                <a href="contact.html" class="btn btn-secondary">Start Your Project</a>
+            </div>
+        </div>
+        <div class="slider-controls">
+            <button class="slider-btn prev-btn" onclick="changeSlide(-1)">‹</button>
+            <button class="slider-btn next-btn" onclick="changeSlide(1)">›</button>
+        </div>
+        <div class="slider-dots">
+            <span class="dot active" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+            <span class="dot" onclick="currentSlide(8)"></span>
+            <span class="dot" onclick="currentSlide(9)"></span>
+            <span class="dot" onclick="currentSlide(10)"></span>
+        </div>
+    </section>
+
+    <!-- Featured Projects Section -->
+    <section id="featured-projects" class="featured-projects">
+        <div class="featured-projects-container">
+            <div class="section-header">
+                <h2>Featured Projects</h2>
+                <p>Discover our most prestigious luxury construction projects</p>
+            </div>
+            
+            <div class="featured-projects-grid">
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/mansion-1.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Modern Estate</h3>
+                                <p>15,000 sq ft custom home featuring contemporary design and smart home technology</p>
+                                <a href="projects.html" class="project-link">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/mansion-2.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Classic Manor</h3>
+                                <p>12,000 sq ft traditional home with timeless architectural details and premium finishes</p>
+                                <a href="projects.html" class="project-link">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/mansion-3.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Contemporary Villa</h3>
+                                <p>18,000 sq ft contemporary home with floor-to-ceiling windows and open living spaces</p>
+                                <a href="projects.html" class="project-link">LEARN MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/mansion-4.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Mediterranean Estate</h3>
+                                <p>20,000 sq ft Mediterranean home with courtyard and outdoor living areas</p>
+                                <a href="projects.html" class="project-link">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/mansion-5.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Mountain Retreat</h3>
+                                <p>14,000 sq ft mountain home with rustic luxury design and panoramic views</p>
+                                <a href="projects.html" class="project-link">LEARN MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/commercial-1.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Corporate Headquarters</h3>
+                                <p>50,000 sq ft office complex featuring modern design and sustainable building practices</p>
+                                <a href="projects.html" class="project-link">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/project1/hero-slide-6.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Luxury Penthouse</h3>
+                                <p>8,000 sq ft penthouse with panoramic city views and premium amenities</p>
+                                <a href="projects.html" class="project-link">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/project1/hero-slide-7.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Coastal Villa</h3>
+                                <p>16,000 sq ft beachfront home with infinity pool and ocean views</p>
+                                <a href="projects.html" class="project-link">LEARN MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-project">
+                    <div class="project-image" style="background-image: url('assets/images/portfolio/project1/hero-slide-8.jpg')">
+                        <div class="project-overlay">
+                            <div class="project-info">
+                                <h3>Historic Renovation</h3>
+                                <p>10,000 sq ft historic mansion restoration with modern luxury updates</p>
+                                <a href="projects.html" class="project-link">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/images/elysian-logo-color.avif" alt="Elysian Build" class="footer-logo-img">
+                    </div>
+                    <p>Creating extraordinary homes that exceed expectations through unparalleled craftsmanship and attention to detail.</p>
+                    <div class="social-links">
+                        <a href="#" class="fab fa-facebook"></a>
+                        <a href="#" class="fab fa-instagram"></a>
+                        <a href="#" class="fab fa-linkedin"></a>
+                        <a href="#" class="fab fa-youtube"></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="portfolio.html">Portfolio</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="services.html">Custom Home Construction</a></li>
+                        <li><a href="services.html">Luxury Renovations</a></li>
+                        <li><a href="services.html">Architectural Design</a></li>
+                        <li><a href="services.html">Landscape Architecture</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> 1234 Luxury Lane, Beverly Hills, CA 90210</p>
+                        <p><i class="fas fa-phone"></i> (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@elysianbuild.com</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Elysian Build. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js" defer></script>
+    <script src="assets/js/performance.js" defer></script>
+    <script src="assets/js/cms.js" defer></script>
+</body>
+</html>

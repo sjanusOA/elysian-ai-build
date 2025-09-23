@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management - Elysian Build Admin</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .admin-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            margin: -2rem -2rem 2rem -2rem;
+            text-align: center;
+        }
+        
+        .admin-section {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .btn {
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-right: 1rem;
+        }
+        
+        .btn:hover {
+            background: var(--red-orange-light);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+        }
+        
+        .projects-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .project-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #f8f9fa;
+        }
+        
+        .project-info {
+            flex: 1;
+        }
+        
+        .project-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .drag-handle {
+            cursor: move;
+            padding: 0.5rem;
+            color: #666;
+        }
+        
+        .image-preview {
+            width: 60px !important;
+            height: 60px !important;
+            object-fit: cover !important;
+            border-radius: 4px;
+            margin-right: 1rem;
+            max-width: 60px !important;
+            max-height: 60px !important;
+        }
+        
+        .highlight-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight-item input {
+            flex: 1;
+            margin-right: 0.5rem;
+        }
+        
+        .remove-highlight {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .add-highlight {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        
+        .image-preview-container {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .gallery-preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .gallery-preview-item {
+            position: relative;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .gallery-preview-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        
+        .remove-gallery-image {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <div>
+                <h1>Project Management</h1>
+                <p>Manage featured projects for Elysian Build</p>
+            </div>
+            <div>
+                <a href="admin-dashboard.html" class="btn" style="margin-right: 1rem;">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Add New Project Form -->
+        <div class="admin-section">
+            <h2>Add New Project</h2>
+            <form id="projectForm">
+                <div class="form-group">
+                    <label for="projectTitle">Project Title</label>
+                    <input type="text" id="projectTitle" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectDescription">Description</label>
+                    <textarea id="projectDescription" name="description" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectImage">Main Project Image</label>
+                    <input type="file" id="projectImage" name="image" accept="image/*" required>
+                    <small>Upload the main project image (JPG, PNG, WebP)</small>
+                    <div id="mainImagePreview" class="image-preview-container" style="display: none;">
+                        <img id="mainImagePreviewImg" class="image-preview" alt="Main image preview">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectGallery">Gallery Images</label>
+                    <input type="file" id="projectGallery" name="gallery" accept="image/*" multiple>
+                    <small>Upload multiple images for the project gallery (JPG, PNG, WebP)</small>
+                    <div id="galleryPreview" class="gallery-preview-container">
+                        <!-- Gallery preview images will be added here -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Key Highlights</label>
+                    <div id="highlightsContainer">
+                        <div class="highlight-item">
+                            <input type="text" name="highlights[]" placeholder="Enter highlight">
+                            <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" class="add-highlight" onclick="addHighlight()">Add Highlight</button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="projectOrder">Display Order</label>
+                    <select id="projectOrder" name="order">
+                        <option value="1">1 (First)</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9 (Last)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn">Add Project</button>
+            </form>
+        </div>
+
+        <!-- Manage Existing Projects -->
+        <div class="admin-section">
+            <h2>Manage Projects</h2>
+            <div id="projectsList" class="projects-list">
+                <!-- Projects will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        if (localStorage.getItem('adminLoggedIn') !== 'true') {
+            window.location.href = 'admin-login.html';
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminLoginTime');
+                window.location.href = 'admin-login.html';
+            }
+        }
+
+        // Load projects from localStorage
+        function loadProjects() {
+            console.log('Loading projects for management...');
+            const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+            const projectsList = document.getElementById('projectsList');
+            
+            console.log('Found projects in localStorage:', projects.length);
+            console.log('Projects data:', projects);
+            
+            if (!projectsList) {
+                console.error('Projects list element not found!');
+                return;
+            }
+            
+            if (projects.length === 0) {
+                projectsList.innerHTML = '<p>No projects found. Add your first project above!</p>';
+                return;
+            }
+            
+            // Sort by order
+            projects.sort((a, b) => a.order - b.order);
+            
+            const projectsHTML = projects.map((project, index) => {
+                console.log(`Project ${index + 1}:`, {
+                    title: project.title,
+                    image: project.image ? project.image.substring(0, 50) + '...' : 'NO IMAGE',
+                    imageType: project.image ? project.image.substring(0, 20) : 'NO IMAGE'
+                });
+                
+                return `
+                <div class="project-item" data-id="${project.id}">
+                    <div class="drag-handle">⋮⋮</div>
+                    <img src="${project.image}" alt="${project.title}" class="image-preview" onerror="console.error('Image failed to load for project:', '${project.title}'); this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0yMCAyMEg0MFY0MEgyMFYyMFoiIGZpbGw9IiNEOUQ5RDkiLz4KPHBhdGggZD0iTTI1IDI1SDM1VjM1SDI1VjI1WiIgZmlsbD0iI0NDQ0NDQyIvPgo8L3N2Zz4K'">
+                    <div class="project-info">
+                        <h3>${project.title}</h3>
+                        <p>${project.description.substring(0, 100)}...</p>
+                        <small>Order: ${project.order} | Gallery: ${project.gallery ? project.gallery.length : 0} images</small>
+                    </div>
+                    <div class="project-actions">
+                        <button class="btn" onclick="editProject('${project.id}')">Edit</button>
+                        <button class="btn btn-danger" onclick="deleteProject('${project.id}')">Delete</button>
+                    </div>
+                </div>
+            `;
+            }).join('');
+            
+            projectsList.innerHTML = projectsHTML;
+            console.log('Projects loaded successfully in management area');
+            
+            // Test if images are being created
+            const images = projectsList.querySelectorAll('.image-preview');
+            console.log('Found', images.length, 'image elements');
+            images.forEach((img, index) => {
+                console.log(`Image ${index + 1}:`, {
+                    src: img.src.substring(0, 50) + '...',
+                    naturalWidth: img.naturalWidth,
+                    naturalHeight: img.naturalHeight,
+                    complete: img.complete,
+                    readyState: img.readyState
+                });
+            });
+        }
+
+        // Handle main image preview
+        document.getElementById('projectImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select a valid image file for the main image.');
+                    this.value = '';
+                    return;
+                }
+                
+                // Validate file size
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('Image file is too large. Please select a file smaller than 10MB.');
+                    this.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('mainImagePreviewImg').src = e.target.result;
+                    document.getElementById('mainImagePreview').style.display = 'block';
+                };
+                reader.onerror = function() {
+                    alert('Failed to load image. Please try again.');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle gallery images preview
+        document.getElementById('projectGallery').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const galleryPreview = document.getElementById('galleryPreview');
+            galleryPreview.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    alert(`File ${file.name} is not a valid image file. Please select only image files.`);
+                    return;
+                }
+                
+                // Validate file size
+                if (file.size > 10 * 1024 * 1024) {
+                    alert(`File ${file.name} is too large. Please select files smaller than 10MB.`);
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const galleryItem = document.createElement('div');
+                    galleryItem.className = 'gallery-preview-item';
+                    galleryItem.innerHTML = `
+                        <img src="${e.target.result}" alt="Gallery preview ${index + 1}">
+                        <button type="button" class="remove-gallery-image" onclick="removeGalleryImage(this)">×</button>
+                    `;
+                    galleryPreview.appendChild(galleryItem);
+                };
+                reader.onerror = function() {
+                    alert(`Failed to load image ${file.name}. Please try again.`);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Remove gallery image from preview
+        function removeGalleryImage(button) {
+            button.parentElement.remove();
+        }
+
+        // Convert file to data URL with validation
+        function fileToDataURL(file) {
+            return new Promise((resolve, reject) => {
+                // Validate file type
+                if (!file.type.startsWith('image/')) {
+                    reject(new Error('File must be an image'));
+                    return;
+                }
+                
+                // Validate file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    reject(new Error('File size must be less than 10MB'));
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.onerror = e => reject(new Error('Failed to read file'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Add new project
+        document.getElementById('projectForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const highlights = Array.from(document.querySelectorAll('input[name="highlights[]"]')).map(input => input.value).filter(h => h.trim());
+            
+            try {
+                // Convert main image to data URL
+                const mainImageFile = formData.get('image');
+                const mainImageDataURL = await fileToDataURL(mainImageFile);
+                
+                // Convert gallery images to data URLs (simplified approach)
+                const galleryDataURLs = [];
+                const galleryFiles = formData.getAll('gallery');
+                
+                for (let i = 0; i < galleryFiles.length; i++) {
+                    if (galleryFiles[i] && galleryFiles[i].size > 0) {
+                        const dataURL = await fileToDataURL(galleryFiles[i]);
+                        galleryDataURLs.push(dataURL);
+                    }
+                }
+                
+                const project = {
+                    id: Date.now().toString(),
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    image: mainImageDataURL,
+                    gallery: galleryDataURLs,
+                    highlights: highlights,
+                    order: parseInt(formData.get('order')),
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Save to localStorage
+                const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+                projects.push(project);
+                localStorage.setItem('featuredProjects', JSON.stringify(projects));
+                
+                // Update homepage
+                updateHomepage();
+                
+                // Also try to refresh if homepage is open in another tab
+                if (window.opener && window.opener.location.pathname.includes('index.html')) {
+                    window.opener.location.reload();
+                }
+                
+                // Reset form
+                this.reset();
+                document.getElementById('highlightsContainer').innerHTML = `
+                    <div class="highlight-item">
+                        <input type="text" name="highlights[]" placeholder="Enter highlight">
+                        <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
+                    </div>
+                `;
+                document.getElementById('mainImagePreview').style.display = 'none';
+                document.getElementById('galleryPreview').innerHTML = '';
+                
+                // Reload projects list
+                loadProjects();
+                
+                alert('Project added successfully!');
+            } catch (error) {
+                console.error('Error processing images:', error);
+                alert('Error processing images. Please make sure you selected valid image files and try again.');
+            }
+        });
+
+        // Add highlight field
+        function addHighlight() {
+            const container = document.getElementById('highlightsContainer');
+            const div = document.createElement('div');
+            div.className = 'highlight-item';
+            div.innerHTML = `
+                <input type="text" name="highlights[]" placeholder="Enter highlight">
+                <button type="button" class="remove-highlight" onclick="removeHighlight(this)">Remove</button>
+            `;
+            container.appendChild(div);
+        }
+
+        // Remove highlight field
+        function removeHighlight(button) {
+            button.parentElement.remove();
+        }
+
+        // Delete project
+        function deleteProject(id) {
+            if (confirm('Are you sure you want to delete this project?')) {
+                const projects = JSON.parse(localStorage.getItem('featuredProjects') || '[]');
+                const updatedProjects = projects.filter(p => p.id !== id);
+                localStorage.setItem('featuredProjects', JSON.stringify(updatedProjects));
+                updateHomepage();
+                loadProjects();
+            }
+        }
+
+        // Update homepage with current projects
+        function updateHomepage() {
+            // Use the CMS function to update homepage
+            if (window.CMS && window.CMS.loadFeaturedProjects) {
+                window.CMS.loadFeaturedProjects();
+            } else {
+                // Fallback: reload the homepage if CMS is not available
+                console.log('CMS not available, homepage will update on next visit');
+            }
+        }
+
+        // Load projects on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProjects();
+        });
+        
+        // Also call immediately in case DOM is already loaded
+        if (document.readyState === 'loading') {
+            // DOM is still loading, wait for DOMContentLoaded
+        } else {
+            // DOM is already loaded, call immediately
+            loadProjects();
+        }
+    </script>
+</body>
+</html>
